@@ -1,8 +1,8 @@
 import AbstractView from "./AbstractView.js";
 
 export default class extends AbstractView {
-    constructor(){
-        super()
+    constructor(params){
+        super(params)
         this.setTitle("Dashboard")
     }
 
@@ -17,7 +17,7 @@ export default class extends AbstractView {
 
         let listPosts = "<ul>"
         for(let i in data){
-            listPosts +="<li>"+data[i]["title"]+"</li>"
+            listPosts +="<li><a href='/post-view/"+data[i]['id']+"' data-link>"+data[i]["title"]+"</a></li>"
         }
         listPosts += "</ul>"
         return `
