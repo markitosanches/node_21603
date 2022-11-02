@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=div, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        input{
+            display: block;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <login-form />
+    </div>
+    <script src="https://unpkg.com/vue@3"></script>
+    <script>
+        let app = Vue.createApp({
+        })
+        app.component('login-form', {
+            template: `
+            <h1>{{ title }}</h1>
+            <form action="" @submit.prevent="handleSubmit">
+                <custom-input v-bind:label="labelUsername" :type='email' v-model="valueUsername"/>
+                <custom-input :label="labelPassword" :type='password' v-model="valuePassword"/>
+                <custom-input :label="labelName" :type='text' v-model="valueName" />
+                <button>Login</button>
+            </form>
+            `,
+            data () {
+                return{
+                    title: 'Page de connexion',
+                    labelUsername: 'Username',
+                    labelPassword: 'Password',
+                    labelName: 'Name',
+                    text: 'text',
+                    email: 'email',
+                    password: 'password',
+                    valueUsername: '',
+                    valuePassword: '',
+                    valueName: '',
+                }
+            },
+            methods: {
+                handleSubmit(){
+                    console.log(this.valueUsername, this.valuePassword)
+                }
+            }
+        })
+        app.component('custom-input', {
+            template: `
+                <label>{{ label }}
+                    <input :type="type" v-model="inputValue" >
+                </label>
+            `,
+            props: ['label', 'type', 'modelValue'],
+            computed: {
+                inputValue: {
+                    get(){
+                        return this.modelValue
+                    },
+                    set(value){
+                        this.$emit('update:modelValue', value)
+                    }
+                }
+            }
+        })
+        app.mount('#app')
+    </script>
+</body>
+</html>
