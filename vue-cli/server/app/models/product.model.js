@@ -14,7 +14,7 @@ module.exports = (connex, Sequelize) => {
         },
         type: {
             type: Sequelize.STRING
-        },
+        }
     })
     return Product
 }

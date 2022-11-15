@@ -15,7 +15,6 @@
               <h4 class="mb-3">Add new product</h4>
               <div class="needs-validation" novalidate>
                 <div class="row g-2">
-                  <div v-if="!submitted">
                   <div class="col-12">
                     <label for="productName" class="form-label"
                       >Product Name</label
@@ -98,14 +97,13 @@
                       Valid photo path is required.
                     </div>
                   </div>
-                  <button class="w-100 btn btn-secondary btn-lg mt-3" type="button" @click="saveProduct" >Save </button>
-                  </div>
-                  <div v-else>
+                  <button class="w-100 btn btn-secondary btn-lg mt-3" type="button" @click="updateProduct" >update </button>
+                  <div>
                     <div  class="alert alert-success alert-dismissible fade show" role="alert">
                     <strong> You submitted successfully!</strong>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
-                    <button class="w-100 btn btn-success btn-lg mt-3" type="button" @click="newProduct">New product </button>
+                    <button class="w-100 btn btn-danger btn-lg mt-3" type="button" @click="deleteProduct">Delete </button>
                   </div>
                   <hr class="my-4">
                 </div>
@@ -121,21 +119,16 @@
 import ProductDataService from '@/services/ProductDataService'
 
 export default {
-  props: ['addInv'],
+  props: ['removeInv', 'inventory'],
   data () {
     return {
       submitted: false,
-      product: {
-        name: '',
-        photo: '',
-        price: '',
-        description: '',
-        type: ''
-      }
+      product: {},
+      id: parseInt(this.$route.params.id)
     }
   },
   methods: {
-    saveProduct () {
+    updateProduct () {
       ProductDataService.create(this.product)
         .then(response => {
           this.product.id = response.data.id
@@ -143,10 +136,27 @@ export default {
           this.submitted = true
         })
     },
-    newProduct () {
-      this.submitted = false
-      this.product = {}
+    deleteProduct () {
+      ProductDataService.delete(this.id)
+        .then(response => {
+          this.removeInv(this.productIndex)
+          this.$router.push({ name: 'home' })
+        })
     }
+  },
+  computed: {
+    productIndex () {
+      const index = this.inventory.findIndex((p) => {
+        return p.id === this.id
+      })
+      return index
+    }
+  },
+  mounted () {
+    ProductDataService.get(this.id)
+      .then(response => {
+        this.product = response.data
+      })
   }
 }
 </script>
