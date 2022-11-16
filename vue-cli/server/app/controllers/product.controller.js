@@ -65,3 +65,28 @@ exports.delete = (req, res) => {
         })
     })
 }
+
+
+exports.update = (req, res) => {
+    const id = req.params.id
+    Product.update(req.body, {
+      where: { id: id}  
+    })
+    .then(num => {
+        if (num == 1){
+            res.send({
+                message: 'Product updated'
+            })
+        } else {
+            res.send({
+                message: 'Product not found'
+            })
+        }
+    })
+    .catch(err => {
+        res.status(500).send({
+            message:
+            err.message || `Some error occurred cannot find data id ${id}`
+        })
+    })
+}

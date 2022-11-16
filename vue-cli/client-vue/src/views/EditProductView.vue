@@ -99,8 +99,8 @@
                   </div>
                   <button class="w-100 btn btn-secondary btn-lg mt-3" type="button" @click="updateProduct" >update </button>
                   <div>
-                    <div  class="alert alert-success alert-dismissible fade show" role="alert">
-                    <strong> You submitted successfully!</strong>
+                    <div  class="alert alert-success alert-dismissible fade show" role="alert" v-if="submitted">
+                    <strong> Updated successfully!</strong>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                     <button class="w-100 btn btn-danger btn-lg mt-3" type="button" @click="deleteProduct">Delete </button>
@@ -119,7 +119,7 @@
 import ProductDataService from '@/services/ProductDataService'
 
 export default {
-  props: ['removeInv', 'inventory'],
+  props: ['removeInv', 'inventory', 'updateInv', 'remove'],
   data () {
     return {
       submitted: false,
@@ -129,10 +129,9 @@ export default {
   },
   methods: {
     updateProduct () {
-      ProductDataService.create(this.product)
+      ProductDataService.update(this.id, this.product)
         .then(response => {
-          this.product.id = response.data.id
-          this.addInv(this.product)
+          this.updateInv(this.productIndex, this.product)
           this.submitted = true
         })
     },
@@ -140,6 +139,7 @@ export default {
       ProductDataService.delete(this.id)
         .then(response => {
           this.removeInv(this.productIndex)
+          this.remove(this.product.name)
           this.$router.push({ name: 'home' })
         })
     }

@@ -37,6 +37,8 @@
   :addToCart = "addToCart"
   :addInv = "addInventory"
   :removeInv = "removeInventory"
+  :updateInv = "updateInventory"
+  :remove = "removeItem"
   />
   <Sidebar
   v-if="showSideBar"
@@ -78,6 +80,13 @@ export default {
     },
     removeInventory (index) {
       this.inventory.splice(index, 1)
+    },
+    updateInventory (index, data) {
+      this.inventory[index].name = data.name
+      this.inventory[index].photo = data.photo
+      this.inventory[index].price = data.price
+      this.inventory[index].description = data.description
+      this.inventory[index].type = data.type
     }
   },
   computed: {

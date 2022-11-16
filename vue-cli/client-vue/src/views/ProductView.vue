@@ -10,7 +10,7 @@
                       <div class="fs-5 mb-5">
                           <span>${{ (product.price).toFixed(2) }}</span>
                       </div>
-                      <p class="lead">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quasi quis inventore quas vero, sequi laudantium eveniet amet eum reiciendis nulla iste. Repellendus laboriosam, minus fuga quis corrupti quibusdam cumque placeat.</p>
+                      <p class="lead">{{ product.description }}</p>
                       <div class="d-flex">
                           <input class="form-control text-center me-3" id="inputQuantity" type="num" v-model.number="product.quantity" style="max-width: 3rem"/>
                           <button class="btn btn-outline-dark flex-shrink-0" type="button" @click="addToCart(product.name, productIndex)">
@@ -18,8 +18,8 @@
                               Add to cart
                           </button>
                       </div>
-                      <div class="d-flex">
-                        <router-link class="btn btn-outline-success mt-10" :to="'/edit-product/'+product.id">
+                      <div class="d-flex mt-3">
+                        <router-link class="btn btn-outline-success" :to="'/edit-product/'+product.id">
                         <i class="bi-pen me-1"></i>
                         Edit product
                         </router-link>
